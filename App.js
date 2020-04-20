@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {Keyboard, Alert} from 'react-native';
 import styled from 'styled-components/native';
+import intl from 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
 
 const Page = styled.SafeAreaView`
 	flex: 1;
@@ -103,7 +105,12 @@ export default () => {
 			{tip > 0 && (
 				<ResultArea>
 					<ResultItemTitle>Valor da conta</ResultItemTitle>
-					<ResultItem>{parseFloat(bill).toFixed(2)}</ResultItem>
+					<ResultItem>
+						{Intl.NumberFormat('pt-BR', {
+							style: 'currency',
+							currency: 'BRL',
+						}).format(bill)}
+					</ResultItem>
 
 					<ResultItemTitle>Valor da gorgeta</ResultItemTitle>
 					<ResultItem>
@@ -112,7 +119,10 @@ export default () => {
 
 					<ResultItemTitle>Valor total</ResultItemTitle>
 					<ResultItem>
-						{(parseFloat(bill) + tip).toFixed(2)}
+						{Intl.NumberFormat('pt-BR', {
+							style: 'currency',
+							currency: 'BRL',
+						}).format(parseFloat(bill) + tip)}
 					</ResultItem>
 				</ResultArea>
 			)}
