@@ -58,9 +58,22 @@ export default () => {
 	const [tip, setTip] = useState(0);
 	const [percentage, setPercentage] = useState(10);
 
+	function TreatBill(billValue) {
+		let tempBill;
+
+		if (billValue.indexOf(',') > -1) {
+			tempBill = billValue.replace(',', '.');
+		} else {
+			tempBill = billValue;
+		}
+		return tempBill;
+	}
+
 	const handleCalc = () => {
 		Keyboard.dismiss();
-		let nBill = parseFloat(bill);
+		let nBill;
+		nBill = TreatBill(bill);
+
 		if (nBill) {
 			calc();
 		} else {
@@ -70,7 +83,7 @@ export default () => {
 
 	const calc = () => {
 		Keyboard.dismiss();
-		let nBill = parseFloat(bill);
+		let nBill = parseFloat(TreatBill(bill));
 
 		setTip((percentage / 100) * nBill);
 	};
@@ -109,7 +122,7 @@ export default () => {
 						{Intl.NumberFormat('pt-BR', {
 							style: 'currency',
 							currency: 'BRL',
-						}).format(bill)}
+						}).format(bill.replace(',', '.'))}
 					</ResultItem>
 
 					<ResultItemTitle>Valor da gorgeta</ResultItemTitle>
@@ -122,7 +135,7 @@ export default () => {
 						{Intl.NumberFormat('pt-BR', {
 							style: 'currency',
 							currency: 'BRL',
-						}).format(parseFloat(bill) + tip)}
+						}).format(parseFloat(bill.replace(',', '.')) + tip)}
 					</ResultItem>
 				</ResultArea>
 			)}
