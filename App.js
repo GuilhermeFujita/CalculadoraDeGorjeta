@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Keyboard} from 'react-native';
+import {Keyboard, Alert} from 'react-native';
 import styled from 'styled-components/native';
 
 const Page = styled.SafeAreaView`
@@ -62,7 +62,7 @@ export default () => {
 		if (nBill) {
 			calc();
 		} else {
-			alert('Digite o valor da conta');
+			Alert.alert('Digite o valor da conta');
 		}
 	};
 
