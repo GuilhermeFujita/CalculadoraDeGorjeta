@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {Keyboard} from 'react-native';
 import styled from 'styled-components/native';
 
 const Page = styled.SafeAreaView`
@@ -55,15 +56,26 @@ export default () => {
 	const [tip, setTip] = useState(0);
 	const [percentage, setPercentage] = useState(10);
 
-	const calc = () => {
+	const handleCalc = () => {
+		Keyboard.dismiss();
 		let nBill = parseFloat(bill);
-
 		if (nBill) {
-			setTip((percentage / 100) * nBill);
+			calc();
 		} else {
 			alert('Digite o valor da conta');
 		}
 	};
+
+	const calc = () => {
+		Keyboard.dismiss();
+		let nBill = parseFloat(bill);
+
+		setTip((percentage / 100) * nBill);
+	};
+
+	useEffect(() => {
+		calc();
+	}, [percentage]);
 
 	return (
 		<Page>
@@ -83,7 +95,10 @@ export default () => {
 				<PercentageItem title="20%" onPress={() => setPercentage(20)} />
 			</PercentageArea>
 
-			<CalcButton title={`Calcular ${percentage}%`} onPress={calc} />
+			<CalcButton
+				title={`Calcular ${percentage}%`}
+				onPress={handleCalc}
+			/>
 
 			{tip > 0 && (
 				<ResultArea>
