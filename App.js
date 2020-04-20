@@ -43,15 +43,23 @@ const ResultItem = styled.Text`
 	margin-bottom: 30px;
 `;
 
+const PercentageArea = styled.View`
+	flex-direction: row;
+	margin: 20px;
+`;
+
+const PercentageItem = styled.Button``;
+
 export default () => {
 	const [bill, setBill] = useState('');
 	const [tip, setTip] = useState(0);
+	const [percentage, setPercentage] = useState(10);
 
 	const calc = () => {
 		let nBill = parseFloat(bill);
 
 		if (nBill) {
-			setTip(nBill * 0.1);
+			setTip((percentage / 100) * nBill);
 		} else {
 			alert('Digite o valor da conta');
 		}
@@ -67,7 +75,15 @@ export default () => {
 				value={bill}
 				onChangeText={(value) => setBill(value)}
 			/>
-			<CalcButton title="Calcular" onPress={calc} />
+
+			<PercentageArea>
+				<PercentageItem title="5%" onPress={() => setPercentage(5)} />
+				<PercentageItem title="10%" onPress={() => setPercentage(10)} />
+				<PercentageItem title="15%" onPress={() => setPercentage(15)} />
+				<PercentageItem title="20%" onPress={() => setPercentage(20)} />
+			</PercentageArea>
+
+			<CalcButton title={`Calcular ${percentage}%`} onPress={calc} />
 
 			{tip > 0 && (
 				<ResultArea>
@@ -75,7 +91,9 @@ export default () => {
 					<ResultItem>{parseFloat(bill).toFixed(2)}</ResultItem>
 
 					<ResultItemTitle>Valor da gorgeta</ResultItemTitle>
-					<ResultItem>{tip.toFixed(2)}</ResultItem>
+					<ResultItem>
+						{tip.toFixed(2)} ({percentage}%)
+					</ResultItem>
 
 					<ResultItemTitle>Valor total</ResultItemTitle>
 					<ResultItem>
